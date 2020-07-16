@@ -1,12 +1,12 @@
-const form = document.querySelector(".js-ask-form"),
-    input = form.querySelector("input"),
+const askform = document.querySelector(".js-ask-form"),
+    input = askform.querySelector("input"),
     greeting = document.querySelector(".js-greeting");
 
 function saveCurrentUser(text) {
     localStorage.setItem(USER_LS, text);
 }
 
-function handleSubmit(event) {
+function userSubmitHandler(event) {
     event.preventDefault();
     const currentValue = input.value;
     printGreeting(currentValue);
@@ -14,16 +14,18 @@ function handleSubmit(event) {
 }
 
 function askName() {
-    form.classList.add(SHOW_CN);
+    askform.classList.add(SHOW_CN);
     greeting.classList.remove(SHOW_CN);
-    form.addEventListener("submit", handleSubmit);
+    ///지우기
+    askform.addEventListener("submit", userSubmitHandler);
 }
 
 function printGreeting(text) {
-    form.classList.remove(SHOW_CN);
+    askform.classList.remove(SHOW_CN);
     greeting.classList.add(SHOW_CN);
     greeting.innerText = `Welcome to momentum page, ${text}`;
 }
+
 const USER_LS = "currentUser",
     SHOW_CN = "showing";
 
