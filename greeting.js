@@ -1,9 +1,9 @@
 const form = document.querySelector(".js-ask-form"),
     input = form.querySelector("input"),
-    greeting = document.querySelector("js-greeting");
+    greeting = document.querySelector(".js-greeting");
 
 function saveCurrentUser(text) {
-    localStorage.setItem("USER_LS", text);
+    localStorage.setItem(USER_LS, text);
 }
 
 function handleSubmit(event) {
@@ -16,7 +16,7 @@ function handleSubmit(event) {
 function askName() {
     form.classList.add(SHOW_CN);
     greeting.classList.remove(SHOW_CN);
-    input.addEventListener("submit", handleSubmit);
+    form.addEventListener("submit", handleSubmit);
 }
 
 function printGreeting(text) {
