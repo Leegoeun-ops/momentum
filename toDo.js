@@ -2,22 +2,21 @@ const toDoForm = document.querySelector(".js-toDo-form"),
     toDoInput = toDoForm.querySelector(".toDo-input"),
     toDolist = document.querySelector(".js-toDo-list");
 
-const TODO_LS = "toDoList"; 
+const TODO_LS = "toDos"; 
 
 function listSubmitHandler(event){
     event.prenentDefalut;
     const toDoValue = toDoInput.value; 
     printTodoList(toDoValue);
-    toDoInput.value="";
+    //toDoInput.value="";
+}
+
+function DeleteHandler(event){
+    //toDoListItem.parent    
 
 }
 
-function onclickDelete(event){
-    
-
-}
-
-function saveList(currentTodoValue){//text
+function saveList(text){//text
     localStorage.setItem(TODO_LS,JSON.stringify(currentTodoValue));
 }
 
@@ -41,18 +40,21 @@ function printTodoList(text){
     saveList(currentTodoValue);
     
 }
-const TODO_LS = "content";
 
 function loadList(){//지운id를 찾아서 length의 id부터 지우기
-    content = localStorage.getItem(TODO_LS);
-    toDoForm.addEventListener("submit",listSubmitHandler);
-    if(TODO_LS !== null){
-        printTodoList(content)
+    const toDos = localStorage.getItem(TODO_LS);
+    
+    if(TODO_LS !== null){ 
+        const loadcontent = JSON.parse(toDos);
+        loadcontent.foreach(function(toDO){
+        printTodoList(toDo.text);        
+        });
     }
 }
 
 function init(){
     loadList();
+    toDoForm.addEventListener("submit",listSubmitHandler);
 }
     
 init();
