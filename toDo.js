@@ -1,60 +1,96 @@
 const toDoForm = document.querySelector(".js-toDo-form"),
-    toDoInput = toDoForm.querySelector(".toDo-input"),
+
+    toDoInput = document.querySelector(".js-toDo-input"),
+
     toDolist = document.querySelector(".js-toDo-list");
 
-const TODO_LS = "toDos"; 
+    const pushArray = [];
 
 function listSubmitHandler(event){
-    event.prenentDefalut;
+    event.preventDefault();
     const toDoValue = toDoInput.value; 
+    console.log(toDoValue);
     printTodoList(toDoValue);
-    //toDoInput.value="";
-}
+    toDoInput.value="";
 
-function DeleteHandler(event){
-    //toDoListItem.parent    
 
 }
 
-function saveList(text){//text
-    localStorage.setItem(TODO_LS,JSON.stringify(currentTodoValue));
+
+
+function onclickDelete(event){
+    const btn = event.target;
+    const li = btn.parentNode;
+    toDolist.removeChild(li);
+    const replace = pushArray.filter(function(toDo){
+        return toDo.id !== parseInt(li.id);
+    });
+    pushArray = replace;
+    saveList();
 }
+
+
+
+function saveList(pushArray){//text
+    localStorage.setItem(TODO_LS,JSON.stringify(pushArray));
+}
+
+
 
 function printTodoList(text){
+
     const toDoListItem = document.createElement("li");
     const button = document.createElement("button");
     const span = document.createElement("span");
+    span.innerText =text;
+    button.innerText ="❌";
     toDolist.appendChild(toDoListItem);
     toDoListItem.appendChild(button);
     toDoListItem.appendChild(span);
-    button.innerText("❌");
-    span.innerText(text);
     button.addEventListener("click",onclickDelete);
-    const pushArray = [];
-    const listObj = {
+    const num = pushArray.length + 1;
+    let listObj = {
         text:text,
-        id:toDolist.length + 1
+
+        id:num
+
     };
+
     //console로 id출력해보기
+
     currentTodoValue= pushArray.push(listObj);
-    saveList(currentTodoValue);
+    saveList(pushArray);
+
     
+
 }
 
-function loadList(){//지운id를 찾아서 length의 id부터 지우기
-    const toDos = localStorage.getItem(TODO_LS);
-    
-    if(TODO_LS !== null){ 
-        const loadcontent = JSON.parse(toDos);
-        loadcontent.foreach(function(toDO){
-        printTodoList(toDo.text);        
+const TODO_LS = "content";
+
+
+
+function loadList(){
+
+    const content = localStorage.getItem(TODO_LS);
+
+    toDoForm.addEventListener("submit",listSubmitHandler);
+
+    if(TODO_LS !== null){
+        const parsedToDos = JSON.parse(content);
+        parsedToDos.forEach(function(toDo) {
+            printTodoList(toDo.text);
         });
-    }
+    }; 
 }
+
+
 
 function init(){
+
     loadList();
-    toDoForm.addEventListener("submit",listSubmitHandler);
+
 }
+
     
+
 init();
